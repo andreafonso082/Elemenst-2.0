@@ -4,15 +4,15 @@
  */
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Layout from './components/Layout';
-import HomePage from './pages/HomePage';
-import Projects from './pages/Projects';
-import ProjectDetail from './pages/ProjectDetail';
-import Galerie from './pages/Galerie';
-import Contact from './pages/Contact';
-import Legal from './pages/Legal';
-import ScrollToTop from './components/ScrollToTop';
-import { LanguageProvider } from './context/LanguageContext';
+import Layout from '@/components/Layout';
+import HomePage from '@/pages/HomePage';
+import Projects from '@/pages/Projects';
+import ProjectDetail from '@/pages/ProjectDetail';
+import Galerie from '@/pages/Galerie';
+import Contact from '@/pages/Contact';
+import Legal from '@/pages/Legal';
+import ScrollToTop from '@/components/ScrollToTop';
+import { LanguageProvider } from '@/context/LanguageContext';
 import { HelmetProvider } from 'react-helmet-async';
 
 export default function App() {

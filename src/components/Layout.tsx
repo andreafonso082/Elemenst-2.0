@@ -3,9 +3,9 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import Lenis from 'lenis';
-import { useLanguage } from '../context/LanguageContext';
+import { useLanguage } from '@/context/LanguageContext';
 import { Helmet } from 'react-helmet-async';
-import CookieBanner from './CookieBanner';
+import CookieBanner from '@/components/CookieBanner';
 
 export default function Layout() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
