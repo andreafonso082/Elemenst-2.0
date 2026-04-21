@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import Lenis from 'lenis';
 import { useLanguage } from '../context/LanguageContext';
+import { Helmet } from 'react-helmet-async';
 import CookieBanner from './CookieBanner';
 
 export default function Layout() {
@@ -12,6 +13,30 @@ export default function Layout() {
   const { lang, setLang, t } = useLanguage();
   const location = useLocation();
   const lenisRef = useRef<Lenis | null>(null);
+
+  // Dynamic Metadata logic
+  const pageNames: Record<string, string> = {
+    '/': 'Home',
+    '/projects': t('nav.projects'),
+    '/galerie': t('nav.galerie'),
+    '/contact': t('nav.contact'),
+    '/terms': t('legal.terms.title'),
+    '/privacy': t('legal.privacy.title'),
+    '/cookies': t('legal.cookies.title')
+  };
+
+  const currentPath = location.pathname;
+  let pageTitle = pageNames[currentPath] || '';
+
+  if (currentPath.startsWith('/projects/')) {
+    const slug = currentPath.split('/').pop();
+    const propertyTitle = slug ? slug.toUpperCase().replace(/-/g, ' ') : '';
+    pageTitle = propertyTitle || t('nav.projects');
+  }
+
+  const finalTitle = pageTitle 
+    ? `${pageTitle} | Elements Algarve` 
+    : 'Elements Algarve | Luxury Houses & Nordic Construction Algarve';
 
   // Monitor scroll for header background
   useEffect(() => {
@@ -55,33 +80,6 @@ export default function Layout() {
     };
   }, []);
 
-  // Dynamic Page Title
-  useEffect(() => {
-    const pageNames: Record<string, string> = {
-      '/': 'Home',
-      '/projects': t('nav.projects'),
-      '/galerie': t('nav.galerie'),
-      '/contact': t('nav.contact'),
-      '/terms': t('legal.terms.title'),
-      '/privacy': t('legal.privacy.title'),
-      '/cookies': t('legal.cookies.title')
-    };
-
-    const currentPath = location.pathname;
-    let pageTitle = pageNames[currentPath] || '';
-
-    // Handle project detail pages
-    if (currentPath.startsWith('/projects/')) {
-      const slug = currentPath.split('/').pop();
-      const property = slug ? slug.toUpperCase().replace(/-/g, ' ') : '';
-      pageTitle = property || t('nav.projects');
-    }
-
-    document.title = pageTitle 
-      ? `${pageTitle} | Elements Algarve` 
-      : 'Elements Algarve | Luxury Houses & Nordic Construction Algarve';
-  }, [location.pathname, t]);
-
   // Reset scroll on route change
   useEffect(() => {
     if (lenisRef.current) {
@@ -102,6 +100,12 @@ export default function Layout() {
 
   return (
     <div className="min-h-screen flex flex-col bg-beige text-ink">
+      <Helmet>
+        <title>{finalTitle}</title>
+        <meta property="og:title" content={finalTitle} />
+        <link rel="canonical" href={`https://elements.pt${location.pathname}`} />
+      </Helmet>
+      
       <CookieBanner />
       
       {/* Header */}
@@ -124,7 +128,7 @@ export default function Layout() {
       </header>
 
       {/* Fullscreen Menu Overlay */}
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {isMenuOpen && (
           <motion.div
             initial={{ opacity: 0, y: '-100%' }}
@@ -165,7 +169,17 @@ export default function Layout() {
 
       {/* Main Content */}
       <main className="flex-grow">
-        <Outlet />
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={location.pathname}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+          >
+            <Outlet />
+          </motion.div>
+        </AnimatePresence>
       </main>
 
       {/* Footer */}
