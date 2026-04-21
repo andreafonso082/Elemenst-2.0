@@ -55,6 +55,33 @@ export default function Layout() {
     };
   }, []);
 
+  // Dynamic Page Title
+  useEffect(() => {
+    const pageNames: Record<string, string> = {
+      '/': 'Home',
+      '/projects': t('nav.projects'),
+      '/galerie': t('nav.galerie'),
+      '/contact': t('nav.contact'),
+      '/terms': t('legal.terms.title'),
+      '/privacy': t('legal.privacy.title'),
+      '/cookies': t('legal.cookies.title')
+    };
+
+    const currentPath = location.pathname;
+    let pageTitle = pageNames[currentPath] || '';
+
+    // Handle project detail pages
+    if (currentPath.startsWith('/projects/')) {
+      const slug = currentPath.split('/').pop();
+      const property = slug ? slug.toUpperCase().replace(/-/g, ' ') : '';
+      pageTitle = property || t('nav.projects');
+    }
+
+    document.title = pageTitle 
+      ? `${pageTitle} | Elements Algarve` 
+      : 'Elements Algarve | Luxury Houses & Nordic Construction Algarve';
+  }, [location.pathname, t]);
+
   // Reset scroll on route change
   useEffect(() => {
     if (lenisRef.current) {
