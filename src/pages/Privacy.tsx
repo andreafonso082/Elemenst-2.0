@@ -1,15 +1,9 @@
 import { motion } from 'framer-motion';
-import { useLanguage } from '../context/LanguageContext';
-import { useLocation } from 'react-router-dom';
+import { useLanguage } from '@/context/LanguageContext';
 
-export default function Legal() {
+export default function Privacy() {
   const { t } = useLanguage();
-  const location = useLocation();
-  const isPrivacy = location.pathname.includes('privacy');
-  const isCookies = location.pathname.includes('cookies');
-  
-  const key = isCookies ? 'cookies' : (isPrivacy ? 'privacy' : 'terms');
-  const content = t(`legal.${key}`);
+  const content = t('legal.privacy');
 
   return (
     <div className="bg-beige min-h-screen pt-40 pb-24 px-6 md:px-12">
@@ -36,10 +30,6 @@ export default function Legal() {
                 </div>
               </section>
             ))}
-          </div>
-          
-          <div className="mt-20 pt-8 border-t border-ink/10 text-[10px] tracking-widest uppercase opacity-40 text-center">
-            Last Updated: {new Date().toLocaleDateString()}
           </div>
         </motion.div>
       </div>
