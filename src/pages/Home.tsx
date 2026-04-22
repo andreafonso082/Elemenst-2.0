@@ -101,7 +101,7 @@ export default function Home() {
       </section>
 
       {/* Philosophy Section - Updated with content from image */}
-      <section className="py-32 px-6 md:px-12 bg-white overflow-hidden">
+      <section className="pt-32 pb-16 px-6 md:px-12 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
@@ -168,7 +168,7 @@ export default function Home() {
       </section>
 
       {/* Featured Projects */}
-      <section className="py-32 bg-white px-6 md:px-12">
+      <section className="pt-16 pb-32 bg-white px-6 md:px-12">
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-end mb-16">
             <h2 className="font-serif text-4xl md:text-6xl">{t('home.featured.title')}</h2>
